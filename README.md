@@ -1,10 +1,8 @@
-Name:Harsh maurya
+# Task 02: PRODIGY_WD_02-Stopwatch web application
 
-live demo:
+# Name:Harsh maurya
 
-github re
-
-
+# live demo:https://harshmaurya5084-byte.github.io/PRODIGY_WD_02/
 
 
 # ⏱️ Stopwatch Web Application
