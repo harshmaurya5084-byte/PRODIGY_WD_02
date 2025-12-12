@@ -1,0 +1,621 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    min-height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 20px;
+    margin: 0;
+    -webkit-tap-highlight-color: transparent;
+    -webkit-touch-callout: none;
+    -webkit-user-select: none;
+    user-select: none;
+}
+
+.container {
+    background: rgba(255, 255, 255, 0.95);
+    border-radius: 20px;
+    padding: 40px;
+    box-shadow: 
+        0 20px 60px rgba(0, 0, 0, 0.3),
+        0 0 40px rgba(102, 126, 234, 0.2);
+    max-width: 500px;
+    width: 100%;
+    backdrop-filter: blur(10px);
+    border: 2px solid rgba(255, 255, 255, 0.3);
+    position: relative;
+    overflow: hidden;
+}
+
+.container::before {
+    content: '';
+    position: absolute;
+    top: -50%;
+    left: -50%;
+    width: 200%;
+    height: 200%;
+    background: linear-gradient(
+        45deg,
+        transparent,
+        rgba(102, 126, 234, 0.05),
+        transparent
+    );
+    animation: shimmer 3s infinite;
+}
+
+@keyframes shimmer {
+    0% {
+        transform: rotate(0deg);
+    }
+    100% {
+        transform: rotate(360deg);
+    }
+}
+
+.branding {
+    position: absolute;
+    top: 15px;
+    right: 15px;
+    z-index: 100;
+}
+
+.brand-tag {
+    display: inline-block;
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    color: white;
+    padding: 8px 16px;
+    border-radius: 20px;
+    font-size: 0.85em;
+    font-weight: bold;
+    text-transform: uppercase;
+    letter-spacing: 1.5px;
+    box-shadow: 
+        0 4px 15px rgba(102, 126, 234, 0.4),
+        inset 0 -2px 5px rgba(0, 0, 0, 0.2);
+    animation: pulse 2s ease-in-out infinite;
+}
+
+@keyframes pulse {
+    0%, 100% {
+        transform: scale(1);
+        box-shadow: 
+            0 4px 15px rgba(102, 126, 234, 0.4),
+            inset 0 -2px 5px rgba(0, 0, 0, 0.2);
+    }
+    50% {
+        transform: scale(1.05);
+        box-shadow: 
+            0 6px 20px rgba(102, 126, 234, 0.6),
+            inset 0 -2px 5px rgba(0, 0, 0, 0.2);
+    }
+}
+
+h1 {
+    text-align: center;
+    color: #333;
+    margin-bottom: 30px;
+    font-size: 2.5em;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    position: relative;
+    z-index: 1;
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.stopwatch {
+    text-align: center;
+}
+
+/* Analog Clock Styles */
+.analog-clock {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-bottom: 30px;
+}
+
+.clock-face {
+    position: relative;
+    width: 300px;
+    height: 300px;
+    border-radius: 50%;
+    background: linear-gradient(145deg, #ffffff, #e6e6e6);
+    box-shadow: 
+        0 10px 30px rgba(0, 0, 0, 0.2),
+        inset 0 0 20px rgba(0, 0, 0, 0.1),
+        0 0 0 15px rgba(255, 255, 255, 0.3),
+        0 0 0 18px rgba(102, 126, 234, 0.2);
+    border: 12px solid #1a1a2e;
+}
+
+.clock-center {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 20px;
+    height: 20px;
+    background: #ff6b6b;
+    border-radius: 50%;
+    z-index: 10;
+    box-shadow: 0 0 10px rgba(255, 107, 107, 0.5);
+}
+
+.hand {
+    position: absolute;
+    bottom: 50%;
+    left: 50%;
+    transform-origin: bottom center;
+    background: #1a1a2e;
+    border-radius: 10px;
+    transition: transform 0.1s cubic-bezier(0.4, 0.0, 0.2, 1);
+}
+
+.hour-hand {
+    width: 8px;
+    height: 80px;
+    margin-left: -4px;
+    background: linear-gradient(to top, #1a1a2e, #667eea);
+    z-index: 3;
+}
+
+.minute-hand {
+    width: 6px;
+    height: 110px;
+    margin-left: -3px;
+    background: linear-gradient(to top, #1a1a2e, #00ff88);
+    z-index: 4;
+}
+
+.second-hand {
+    width: 4px;
+    height: 120px;
+    margin-left: -2px;
+    background: linear-gradient(to top, #ff6b6b, #ffd93d);
+    z-index: 5;
+}
+
+.number {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    text-align: center;
+    transform: rotate(calc(var(--i) * 30deg));
+}
+
+.number span {
+    display: inline-block;
+    font-size: 24px;
+    font-weight: bold;
+    color: #1a1a2e;
+    transform: rotate(calc(var(--i) * -30deg));
+    margin-top: 15px;
+}
+
+.display {
+    background: #1a1a2e;
+    color: #00ff88;
+    font-size: 3em;
+    font-weight: bold;
+    padding: 30px 20px;
+    border-radius: 15px;
+    margin-bottom: 30px;
+    font-family: 'Courier New', monospace;
+    letter-spacing: 3px;
+    box-shadow: 
+        inset 0 4px 10px rgba(0, 0, 0, 0.5),
+        0 0 20px rgba(0, 255, 136, 0.3);
+    border: 2px solid rgba(0, 255, 136, 0.2);
+    position: relative;
+    z-index: 1;
+}
+
+.display span {
+    display: inline-block;
+    min-width: 60px;
+}
+
+#milliseconds {
+    font-size: 0.7em;
+    color: #00ccff;
+}
+
+.controls {
+    display: flex;
+    gap: 15px;
+    justify-content: center;
+    flex-wrap: wrap;
+    position: relative;
+    z-index: 1;
+}
+
+.btn {
+    padding: 15px 30px;
+    font-size: 1.1em;
+    font-weight: bold;
+    border: none;
+    border-radius: 10px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    box-shadow: 
+        0 4px 15px rgba(0, 0, 0, 0.2),
+        inset 0 1px 0 rgba(255, 255, 255, 0.3);
+    position: relative;
+    overflow: hidden;
+    touch-action: manipulation;
+    -webkit-tap-highlight-color: transparent;
+}
+
+.btn::before {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 0;
+    height: 0;
+    border-radius: 50%;
+    background: rgba(255, 255, 255, 0.3);
+    transform: translate(-50%, -50%);
+    transition: width 0.6s, height 0.6s;
+}
+
+.btn:hover::before {
+    width: 300px;
+    height: 300px;
+}
+
+.btn:hover:not(:disabled) {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.3);
+}
+
+.btn:active:not(:disabled) {
+    transform: translateY(0);
+}
+
+.btn:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+}
+
+.btn-start {
+    background: linear-gradient(135deg, #00ff88, #00dd77);
+    color: #1a1a2e;
+    position: relative;
+    z-index: 1;
+}
+
+.btn-start:hover:not(:disabled) {
+    background: linear-gradient(135deg, #00dd77, #00cc66);
+    transform: translateY(-2px);
+}
+
+.btn-stop {
+    background: linear-gradient(135deg, #ff6b6b, #ee5555);
+    color: white;
+    position: relative;
+    z-index: 1;
+}
+
+.btn-stop:hover:not(:disabled) {
+    background: linear-gradient(135deg, #ee5555, #dd4444);
+    transform: translateY(-2px);
+}
+
+.btn-reset {
+    background: linear-gradient(135deg, #ffd93d, #ffc91a);
+    color: #1a1a2e;
+    position: relative;
+    z-index: 1;
+}
+
+.btn-reset:hover:not(:disabled) {
+    background: linear-gradient(135deg, #ffc91a, #ffb800);
+    transform: translateY(-2px);
+}
+
+.btn-lap {
+    background: linear-gradient(135deg, #6c5ce7, #5f4dd4);
+    color: white;
+    position: relative;
+    z-index: 1;
+}
+
+.btn-lap:hover:not(:disabled) {
+    background: linear-gradient(135deg, #5f4dd4, #5244c1);
+    transform: translateY(-2px);
+}
+
+.lap-times {
+    margin-top: 40px;
+}
+
+.lap-times h2 {
+    color: #333;
+    margin-bottom: 15px;
+    font-size: 1.5em;
+    text-align: center;
+    position: relative;
+    z-index: 1;
+}
+
+#lapList {
+    list-style: none;
+    max-height: 300px;
+    overflow-y: auto;
+}
+
+#lapList li {
+    background: #f8f9fa;
+    padding: 12px 20px;
+    margin-bottom: 10px;
+    border-radius: 8px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    transition: all 0.3s ease;
+    border-left: 4px solid #667eea;
+}
+
+#lapList li:hover {
+    background: #e9ecef;
+    transform: translateX(5px);
+}
+
+#lapList li .lap-number {
+    font-weight: bold;
+    color: #667eea;
+    font-size: 1.1em;
+}
+
+#lapList li .lap-time {
+    font-family: 'Courier New', monospace;
+    color: #333;
+    font-size: 1em;
+}
+
+/* Scrollbar styling */
+#lapList::-webkit-scrollbar {
+    width: 8px;
+}
+
+#lapList::-webkit-scrollbar-track {
+    background: #f1f1f1;
+    border-radius: 10px;
+}
+
+#lapList::-webkit-scrollbar-thumb {
+    background: #667eea;
+    border-radius: 10px;
+}
+
+#lapList::-webkit-scrollbar-thumb:hover {
+    background: #5566d4;
+}
+
+/* Responsive design */
+@media (max-width: 600px) {
+    body {
+        padding: 10px;
+    }
+
+    .container {
+        padding: 25px 15px;
+        max-width: 100%;
+    }
+
+    .branding {
+        top: 10px;
+        right: 10px;
+    }
+
+    .brand-tag {
+        padding: 6px 12px;
+        font-size: 0.7em;
+        letter-spacing: 1px;
+    }
+
+    h1 {
+        font-size: 1.8em;
+        margin-bottom: 20px;
+        letter-spacing: 1px;
+    }
+
+    .analog-clock {
+        margin-bottom: 20px;
+    }
+
+    .clock-face {
+        width: 240px;
+        height: 240px;
+        border: 8px solid #1a1a2e;
+    }
+
+    .clock-center {
+        width: 15px;
+        height: 15px;
+    }
+
+    .hour-hand {
+        width: 6px;
+        height: 60px;
+        margin-left: -3px;
+    }
+
+    .minute-hand {
+        width: 5px;
+        height: 85px;
+        margin-left: -2.5px;
+    }
+
+    .second-hand {
+        width: 3px;
+        height: 95px;
+        margin-left: -1.5px;
+    }
+
+    .number span {
+        font-size: 16px;
+        margin-top: 10px;
+    }
+
+    .display {
+        font-size: 2em;
+        padding: 20px 10px;
+        letter-spacing: 2px;
+        margin-bottom: 20px;
+    }
+
+    .display span {
+        min-width: 45px;
+    }
+
+    #milliseconds {
+        font-size: 0.65em;
+    }
+
+    .controls {
+        gap: 10px;
+    }
+
+    .btn {
+        padding: 12px 20px;
+        font-size: 0.9em;
+        letter-spacing: 0.5px;
+        flex: 1 1 calc(50% - 5px);
+        min-width: 120px;
+    }
+
+    .lap-times {
+        margin-top: 25px;
+    }
+
+    .lap-times h2 {
+        font-size: 1.3em;
+        margin-bottom: 12px;
+    }
+
+    #lapList {
+        max-height: 200px;
+    }
+
+    #lapList li {
+        padding: 10px 15px;
+        font-size: 0.95em;
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 5px;
+    }
+
+    #lapList li .lap-number {
+        font-size: 1em;
+    }
+
+    #lapList li .lap-time {
+        font-size: 0.95em;
+    }
+}
+
+/* Extra small mobile devices */
+@media (max-width: 380px) {
+    h1 {
+        font-size: 1.5em;
+    }
+
+    .clock-face {
+        width: 200px;
+        height: 200px;
+        border: 6px solid #1a1a2e;
+    }
+
+    .hour-hand {
+        height: 50px;
+    }
+
+    .minute-hand {
+        height: 70px;
+    }
+
+    .second-hand {
+        height: 80px;
+    }
+
+    .number span {
+        font-size: 14px;
+        margin-top: 8px;
+    }
+
+    .display {
+        font-size: 1.6em;
+        padding: 15px 8px;
+    }
+
+    .btn {
+        padding: 10px 15px;
+        font-size: 0.85em;
+        min-width: 100px;
+    }
+}
+
+/* Landscape orientation for mobile */
+@media (max-width: 900px) and (orientation: landscape) {
+    body {
+        padding: 10px;
+    }
+
+    .container {
+        padding: 20px;
+        max-height: 95vh;
+        overflow-y: auto;
+    }
+
+    h1 {
+        font-size: 1.5em;
+        margin-bottom: 15px;
+    }
+
+    .analog-clock {
+        margin-bottom: 15px;
+    }
+
+    .clock-face {
+        width: 180px;
+        height: 180px;
+    }
+
+    .hour-hand {
+        height: 45px;
+    }
+
+    .minute-hand {
+        height: 65px;
+    }
+
+    .second-hand {
+        height: 75px;
+    }
+
+    .display {
+        font-size: 1.8em;
+        padding: 15px 10px;
+        margin-bottom: 15px;
+    }
+
+    .btn {
+        padding: 10px 20px;
+        font-size: 0.85em;
+    }
+
+    #lapList {
+        max-height: 150px;
+    }
+}
