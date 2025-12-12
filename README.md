@@ -1,3 +1,12 @@
+Name:Harsh maurya
+
+live demo:
+
+github re
+
+
+
+
 # ⏱️ Stopwatch Web Application
 
 A fully functional, mobile-responsive stopwatch web application with an elegant analog clock display and advanced features.
